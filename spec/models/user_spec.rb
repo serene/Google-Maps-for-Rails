@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+include Geocoding
+
 DEFAULT_CONFIG_HASH = {
   :lat_column     => "latitude",
   :lng_column     => "longitude",
@@ -30,6 +32,10 @@ describe Gmaps4rails::ActsAsGmappable do
 
   let(:user)         { Factory(:user) }
   let(:invalid_user) { Factory.build(:invalid_user) }
+  
+  before(:each) do
+    Geocoding.stub_gecoding
+  end
   
   context "standard configuration, valid user" do
     
@@ -126,12 +132,12 @@ describe Gmaps4rails::ActsAsGmappable do
     end
     
     it "should not geocode again after address changes if checker is true" do
-      user.update_attributes({ :address => "PARIS, France" })
+      user.update_attributes({ :address => "Paris, France" })
       user.should have_same_position_as TOULON
     end
     
     it "should geocode after address changes if checker is false" do
-      user.update_attributes({ :address => "PARIS, France", 
+      user.update_attributes({ :address => "Paris, France", 
                                :gmaps        => false})
       user.should have_same_position_as PARIS
     end
@@ -163,7 +169,7 @@ describe Gmaps4rails::ActsAsGmappable do
         set_gmaps4rails_options!
       end
       
-      it "should use indifferently a db column for address if passed in config", :focus do
+      it "should use indifferently a db column for address if passed in config" do
         set_gmaps4rails_options!({:address => "sec_address"})
         user = Factory(:user, :sec_address => "Toulon, France")
         user.should have_same_position_as TOULON
@@ -207,7 +213,7 @@ describe Gmaps4rails::ActsAsGmappable do
 
       it "should geocode after each save if 'check_process' is false" do
         set_gmaps4rails_options!({ :check_process  => false })
-        user = Factory(:user, :address => "PARIS, France")
+        user = Factory(:user, :address => "Paris, France")
         user.should have_same_position_as PARIS
       end
 
@@ -230,14 +236,6 @@ describe Gmaps4rails::ActsAsGmappable do
           attr_accessor :called_back
         end
         user.called_back.should be_true
-      end
-
-      it "should return results in the specified language" do
-        set_gmaps4rails_options!({ 
-                                :language   => "de",
-                                :normalized_address => "norm_address"
-                                })
-        user.norm_address.should == "Toulon, Frankreich"
       end
       
     end

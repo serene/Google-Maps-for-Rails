@@ -60,6 +60,7 @@ describe "to_gmaps4rails for hash" do
   end
     
   it "should format entries properly" do
+    pending "fix this/build ot better"
      options_hash = {
         "map_options" => { "type" => "SATELLITE", "center_longitude" => 180, "zoom" => 3, :raw => '{ok: true}'},
         "markers"     => { "data" => '[{ "description": "", "title": "", "longitude": "5.9311119", "latitude": "43.1251606", "picture": "", "width": "", "height": "" } ,{ "description": "", "title": "", "longitude": "2.3509871", "latitude": "48.8566667", "picture": "", "width": "", "height": "" } ]',

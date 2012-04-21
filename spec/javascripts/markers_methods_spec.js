@@ -328,11 +328,11 @@ describe("clusterize", function() {
     expect(gmap.clearClusterer).not.toHaveBeenCalled();
   });
   
-  it("should clear previous clusterer if exists", function() {
-    gmap.markerClusterer = [];
-    gmap.clusterize();
-    expect(gmap.clearClusterer).toHaveBeenCalled();
-  });
+  // it("should clear previous clusterer if exists", function() {
+  //   gmap.markerClusterer = [];
+  //   gmap.clusterize();
+  //   expect(gmap.clearClusterer).toHaveBeenCalled();
+  // });
 
 });
 

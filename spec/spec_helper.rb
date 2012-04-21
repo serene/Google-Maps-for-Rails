@@ -9,7 +9,8 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'factory_girl_rails'
   require 'database_cleaner'
-
+  require "jasmine"
+  
  Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each   {|f| require f }
  FactoryGirl.definition_file_paths = [ File.join(Rails.root, '../factories') ]
  FactoryGirl.find_definitions
