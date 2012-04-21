@@ -25,13 +25,24 @@ gemspec
 gem "rails", "~> 3.2.1"
 gem "sqlite3"
 gem "jquery-rails"
+
 gem "rspec-rails"
+gem 'capybara'
+gem 'database_cleaner'
+gem 'launchy'
+
 gem "jasmine"
+
 gem "guard", "~> 1.0.1"
+gem "guard-spork"
 gem 'guard-coffeescript'
 gem 'guard-jasmine'
 gem 'guard-rspec'
+gem 'growl'
 
+gem 'factory_girl_rails'
+
+gem 'pry'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or

@@ -1,3 +1,9 @@
 class User < ActiveRecord::Base
-  attr_accessible :gmaps, :latitude, :longitude, :name, :picture
+  acts_as_gmappable
+  
+  attr_accessor :lat_test, :long_test, :bool_test
+  
+  def gmaps4rails_address
+    address
+  end
 end

@@ -13,24 +13,17 @@
 
 ActiveRecord::Schema.define(:version => 20120408170155) do
 
-  create_table "guineapigs", :force => true do |t|
-    t.string   "name"
-    t.string   "picture"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "gmaps"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "name"
+    t.string   "address"
+    t.string   "norm_address"
+    t.string   "sec_address"
     t.string   "picture"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
 end

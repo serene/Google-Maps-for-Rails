@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :guineapig do  
+  factory :user do  
         
     trait :paris do
       address "Paris, France"
@@ -16,8 +16,8 @@ FactoryGirl.define do
     name    "Guinea Pig"
     address "Toulon, France"
     
-    factory :guineapig_paris,    :traits => [:paris]
-    factory :guineapig_with_pic, :traits => [:with_pic]
-    factory :invalid_guineapig,  :traits => [:invalid]
+    factory :user_paris,    :traits => [:paris]
+    factory :user_with_pic, :traits => [:with_pic]
+    factory :invalid_user,  :traits => [:invalid]
   end
 end
