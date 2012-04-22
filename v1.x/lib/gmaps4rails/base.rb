@@ -36,11 +36,6 @@ module Gmaps4rails
   
   private
   
-  # To create valid js, this method escapes everything but Numeric, true or false
-  def Gmaps4rails.filter(data)
-    data.to_json
-  end
-  
   # get the response from the url encoded address string
   def Gmaps4rails.get_response(url)
     url = URI.parse(url)
