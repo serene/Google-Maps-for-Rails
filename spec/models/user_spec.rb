@@ -76,11 +76,11 @@ describe Gmaps4rails::ActsAsGmappable do
         end).should == [{"model" => "User", "lng" => TOULON[:longitude], "lat" => TOULON[:latitude]},{"model" => "User", "lng" => PARIS[:longitude], "lat" => PARIS[:latitude] }]
       end
       
-      it "should extend json string for Arrays and custom hash", :focus do
+      it "should extend json string for Arrays and custom hash" do
         user #needed trigger the object from the let statement
         Factory(:user_paris)
         JSON.parse(User.all.to_gmaps4rails do |u, marker|
-           json({ :model => u.class.to_s })
+           marker.json({ :model => u.class.to_s })
         end).should == [{"model" => "User", "lng" => TOULON[:longitude], "lat" => TOULON[:latitude]},{"model" => "User", "lng" => PARIS[:longitude], "lat" => PARIS[:latitude] }]
       end
             
