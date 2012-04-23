@@ -6,4 +6,4 @@ rvm:
 gemfile:
   - Gemfile
 script: 'rspec spec'
-after_script: 'bundle exec guard-jasmine'
+after_script: 'bundle exec guard-jasmine -u http://localhost:8888/'
