@@ -38,8 +38,9 @@ module Gmaps4rails
     
     def process(&block)
       if compliant?
-        handle_block(&block) if block_given?
         handle_model_methods
+        #having block handling after model methods will make the block params take procedence over model methods
+        handle_block(&block) if block_given?
         return_json
       else
         nil
