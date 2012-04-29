@@ -46,8 +46,4 @@ module Gmaps4railsHelper
   def gmaps4rails_html(map_options = nil)
     render "/gmaps4rails/html", :map_options => map_options
   end
-  
-  def gmaps4rails_pipeline_enabled?
-    Rails.configuration.methods.include?(:assets) && Rails.configuration.assets.enabled
-  end
 end

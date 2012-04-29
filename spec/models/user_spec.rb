@@ -91,17 +91,21 @@ describe Gmaps4rails::ActsAsGmappable do
       end
       
       it "json method should produce same result as raw string" do
-        user.to_gmaps4rails do |u, marker|
+        from_method = JSON.parse(user.to_gmaps4rails do |u, marker|
           marker.json({ :model => u.class.to_s })
-        end.should == user.to_gmaps4rails do |u, marker|
-                        "\"model\":\"" + u.class.to_s + "\""
-                      end
+        end)
+        
+        from_string = JSON.parse(user.to_gmaps4rails do |u, marker|
+          "\"model\":\"" + u.class.to_s + "\""
+        end)
+        
+        from_string.should eq from_method
       end
       
       it "infowindow content should be included in json" do
         user.to_gmaps4rails do |u, marker|
-          marker.infowindow "i'm inside the infowindow!"
-        end.should include "\"description\":\"i'm inside the infowindow!\""
+          marker.infowindow "in infowindow"
+        end.should include "\"description\":\"in infowindow\""
       end
       
       it "marker_picture should be included in json" do
