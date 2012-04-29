@@ -125,6 +125,7 @@ describe Gmaps4rails::ActsAsGmappable do
           marker.sidebar "i'm the sidebar"
         end.should include "\"sidebar\":\"i'm the sidebar\""
       end
+      
     end
   
     it "should render a valid json from a single object" do
@@ -339,6 +340,21 @@ describe Gmaps4rails::ActsAsGmappable do
       end
       
     end
+
+    it "block info should take precedence over model methods" do
+      user.instance_eval do 
+        def gmaps4rails_infowindow
+          "defined in model"
+        end
+      end
+      user.to_gmaps4rails.should include "defined in model"
+      result = user.to_gmaps4rails do |u, marker|
+        marker.infowindow "defined in block"
+      end
+      result.should     include "defined in block"
+      result.should_not include "defined in model"
+    end
+    
   end
   
   describe "eval conditions" do
@@ -348,9 +364,7 @@ describe Gmaps4rails::ActsAsGmappable do
           DEFAULT_CONFIG_HASH.merge({ :validation => :published? })
         end
 
-        def published?
-          "bar,baz"
-        end
+        def published?; true; end
       end
       user.should_receive :published?
       Gmaps4rails.condition_eval(user, user.gmaps4rails_options[:validation])
@@ -379,7 +393,7 @@ describe Gmaps4rails::ActsAsGmappable do
       Gmaps4rails.condition_eval(user, user.gmaps4rails_options[:validation]).should be_true
     end
     
-    it "should simply accept a true value" do
+    it "should simply accept a false value" do
       user.instance_eval do
         def gmaps4rails_options
           DEFAULT_CONFIG_HASH.merge({ :validation => false })

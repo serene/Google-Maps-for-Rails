@@ -26,7 +26,7 @@ module Gmaps4railsHelper
   end
 
   def gmaps4rails_map_id(map_options)
-    map_options.try(:[], :id) || Gmaps4rails::DEFAULT_MAP_ID
+    map_options.try(:[], :id) || Gmaps4rails::JsBuilder::DEFAULT_MAP_ID
   end
 
   def gmaps4rails_container_class(map_options)
