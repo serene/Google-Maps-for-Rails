@@ -1,3 +1,105 @@
-= Gmaps4rails
+== Google Maps for Rails (gmaps4rails)
 
-This project rocks and uses MIT-LICENSE.
+{<img src="https://secure.travis-ci.org/apneadiving/Google-Maps-for-Rails.png?branch=master" alt="Build Status" />}[http://travis-ci.org/apneadiving/Google-Maps-for-Rails]
+
+Gmaps4rails is developed to simply create a Google Map:
+
+- directly from your model,
+
+- from your own json
+
+It's based on Ruby on Rails 3 Engines and uses Google Maps API V3.
+
+See (somewhat outdated) screencasts here: http://www.youtube.com/user/TheApneadiving
+
+== When Gmaps4rails finally means Global Maps for Rails
+
+I've added support for other map providers:
+
+* openlayers
+
+* mapquest
+
+* bing
+
+See: https://github.com/apneadiving/Google-Maps-for-Rails/wiki/Map-Apis
+
+Any help would be appreciated to complete this work.
+
+
+== Requirements
+
+Gemfile
+    gem 'gmaps4rails'
+(followed by 'bundle')
+
+    <%= yield :head %>    (in your header, Rails 3.0.x only) 
+    
+    <%= yield :scripts %> (in your footer)
+
+Copy the assets to your app (and be sure to copy the fresh assets when you upgrade the gem):
+
+  rails generate gmaps4rails:install
+   
+This will copy the coffeescript files if you're running Rails 3.1 or the js files for Rails 3.0.x
+
+== Basic configuration
+In your model, add:
+
+    acts_as_gmappable
+
+    def gmaps4rails_address
+    #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
+      "#{self.street}, #{self.city}, #{self.country}" 
+    end
+
+Create a migration and add the following fields to your table (here users):
+
+    add_column :users, :latitude, :float #you can change the name, see wiki
+    add_column :users, :longitude, :float #you can change the name, see wiki
+    add_column :users, :gmaps, :boolean #not mandatory, see wiki
+
+== How to?
+=== QuickStart!
+In your controller:
+ 
+    @json = User.all.to_gmaps4rails
+
+In your view:
+
+    <%= gmaps4rails(@json) %>
+
+Done!
+
+== Options
+
+* Markers with Info window, Custom Picture, RichMarkers (make your own markers with custom html)
+
+* Automatic sidebar with list of markers
+
+* Circles, Polylines, Polygons
+
+* Geocode directly your address and retrieve coordinates. 
+
+* Wrapper for 'Direction', giving instructions to go from point A to point B
+
+* Auto-adjust the map to your markers
+
+* Refresh your map on the fly with Javascript (and Ajax)
+
+* KML support
+
+* Easy multimap
+
+* {More details in the Wiki}[https://github.com/apneadiving/Google-Maps-for-Rails/wiki]
+
+== Todo?
+
+Feel free to contact us, you have your say.
+
+== Copyright
+MIT license. 
+
+Authors: Benjamin Roth, David Ruyer
+
+Contributors: Mircea Pricop, Kamil Śliwak, Alex Vorobiev
