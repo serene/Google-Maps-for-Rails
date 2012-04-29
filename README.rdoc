@@ -12,34 +12,65 @@ See (somewhat outdated) screencasts here: http://www.youtube.com/user/TheApneadi
 
 == When Gmaps4rails finally means Global Maps for Rails
 
-I've added support for other map providers:
-
-* openlayers
-
-* mapquest
-
-* bing
+I've added support for other map providers: openlayers, mapquest & bing.
 
 See: https://github.com/apneadiving/Google-Maps-for-Rails/wiki/Map-Apis
 
 Any help would be appreciated to complete this work.
 
-
 == Requirements
 
-Gemfile
-    gem 'gmaps4rails'
-(followed by 'bundle')
+1) Gemfile
 
-    <%= yield :head %>    (in your header, Rails 3.0.x only) 
-    
+    gem 'gmaps4rails'
+
+2) Copy the assets to your app (and be sure to copy the fresh assets when you upgrade the gem):
+
+    rails generate gmaps4rails:install
+
+This will copy the coffeescript files if you're running Rails 3.1 or the js files for Rails 3.0.x
+
+3) Javascript
+  
     <%= yield :scripts %> (in your footer)
 
-Copy the assets to your app (and be sure to copy the fresh assets when you upgrade the gem):
+The gem will use this container to include:
 
-  rails generate gmaps4rails:install
-   
-This will copy the coffeescript files if you're running Rails 3.1 or the js files for Rails 3.0.x
+* the js files from map providers
+
+* the custom js to display the map
+
+Another kind of js is needed: the gem's js code.
+
+Before v2.0, js files were magically included by the gem in your view. This required additional logic and didn't fit all expectations.
+Now you have to include the files yourself which makes everything clearer.
+
+For Rails 3.0.x or without assets pipeline, include the necessary files in your view:
+
+    # base is always necessary
+    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.base.js' %>
+    # for google maps
+    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.googlemaps.js' %>
+    # for openlayers
+    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.openlayers.js' %>
+    # for mapquest
+    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.mapquest.js' %>
+    # for bing
+    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.bing.js' %>
+
+For Rails >= 3.1 with assets pipeline, same principle: add the required files to your manifest.
+
+4) CSS
+
+`gmaps4rails.css` will be copied to your app after you run the Rails generator. 
+Be sure to require this file in your view for your first steps.
+
+For Rails 3.0.x or without assets pipeline:
+
+    <%= stylesheet_link_tag 'gmaps4rails %>
+    
+For Rails >= 3.1 with assets pipeline, same principle: add the required file to your manifest.
+
 
 == Basic configuration
 In your model, add:
@@ -53,7 +84,7 @@ In your model, add:
 
 Create a migration and add the following fields to your table (here users):
 
-    add_column :users, :latitude, :float #you can change the name, see wiki
+    add_column :users, :latitude,  :float #you can change the name, see wiki
     add_column :users, :longitude, :float #you can change the name, see wiki
     add_column :users, :gmaps, :boolean #not mandatory, see wiki
 
