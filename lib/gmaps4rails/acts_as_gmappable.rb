@@ -33,7 +33,7 @@ module Gmaps4rails
         # Call the callback method to let the user do what he wants with the data
         self.send(gmaps4rails_options[:callback], coordinates.first[:full_data]) unless gmaps4rails_options[:callback].nil?
         # update checker if required
-        self.send("#{gmaps4rails_options[:checker]}=", true)                     if     gmaps4rails_check_geocoding?
+        self.send("#{gmaps4rails_options[:checker]}=", true) if gmaps4rails_check_geocoding?
       end
       
       # if process_geocoding is a TrueClass or a FalseClass, 'check_process' and 'checker' play an additional role
