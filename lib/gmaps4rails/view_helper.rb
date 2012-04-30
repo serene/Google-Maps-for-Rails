@@ -22,16 +22,14 @@ module Gmaps4rails
     end
     
     def dom_attributes
-      @dom_attr = OpenStruct.new({
+      OpenStruct.new({
         :map_id          => map_id,
         :map_class       => map_class,
         :container_class => container_class,
         :provider        => map_provider
       })
     end
-    
-    private
-    
+        
     def get_gem_scripts
       unless gmaps4rails_pipeline_enabled?
         @js_array << '/gmaps4rails/gmaps4rails.base.js' unless scripts == :api
@@ -56,12 +54,14 @@ module Gmaps4rails
         @js_array << "#{GOOGLE_EXT}trunk/richmarker/src/richmarker-compiled.js"                  if rich_marker
       end
     end
-        
+    
+    private
+    
     # checks whether or not the app has pipeline enabled
-    # works works Rails 3.0.x and above
+    # works for Rails 3.0.x and above
     # @return [Boolean]
     def gmaps4rails_pipeline_enabled?
-      Rails.configuration.methods.include?(:assets) && Rails.configuration.assets.enabled
+      Rails.configuration.try(:assets).try(:enabled)
     end
     
     def map_options
