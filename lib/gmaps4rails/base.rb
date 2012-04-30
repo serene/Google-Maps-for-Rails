@@ -28,10 +28,9 @@ module Gmaps4rails
   
   def Gmaps4rails.condition_eval(object, condition)
     case condition
-    when Symbol     then object.send condition
-    when Proc       then condition.call(object)
-    when TrueClass  then condition
-    when FalseClass then condition
+    when Symbol, String        then object.send condition
+    when Proc                  then condition.call(object)
+    when TrueClass, FalseClass then condition
     end
   end
   
