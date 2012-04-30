@@ -38,9 +38,8 @@ module Gmaps4rails
     
     def process(&block)
       if compliant?
-        handle_model_methods
-        #having block handling after model methods will make the block params take procedence over model methods
         handle_block(&block) if block_given?
+        handle_model_methods
         return_json
       else
         nil
@@ -89,9 +88,9 @@ module Gmaps4rails
       model_attributes.each do |json_name, method_name|
         if @object.respond_to? method_name
           if json_name == :marker_picture
-            @json_hash.merge! @object.send(method_name)
+            @json_hash.merge!(@object.send(method_name))
           else
-            @json_hash[json_name] = @object.send(method_name)
+            @json_hash[json_name] = @object.send(method_name) unless @json_hash.has_key? :json_name
           end
         end
       end
@@ -104,10 +103,11 @@ module Gmaps4rails
     # - custom json provided as string (marker.json {"\"id\": #{user.id}" } => create json from hash then insert string inside
     def return_json
       return @json_hash.to_json if @custom_json.nil?
-      if @custom_json.is_a? Hash
+      case @custom_json
+      when Hash
         @json_hash.merge! @custom_json
         return @json_hash.to_json
-      elsif @custom_json.is_a? String
+      when String
         output = @json_hash.to_json
         return output.insert(1, @custom_json + ",")
       end

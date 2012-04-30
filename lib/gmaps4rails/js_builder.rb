@@ -50,7 +50,6 @@ module Gmaps4rails
       result * ('
 ')
     end
-        
     
     def js_function_name(hash)
       "load_" + get_map_id(hash[:map_options])

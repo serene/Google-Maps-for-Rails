@@ -2,6 +2,7 @@ require 'gmaps4rails/acts_as_gmappable'
 
 require 'gmaps4rails/js_builder'
 require 'gmaps4rails/json_builder'
+require 'gmaps4rails/view_helper'
 require 'gmaps4rails/geocoding'
 require 'gmaps4rails/google_places'
 require 'gmaps4rails/extensions/array'
