@@ -90,7 +90,7 @@ module Gmaps4rails
           if json_name == :marker_picture
             @json_hash.merge!(@object.send(method_name))
           else
-            @json_hash[json_name] = @object.send(method_name) unless @json_hash.has_key? :json_name
+            @json_hash[json_name] = @object.send(method_name) unless @json_hash.has_key? json_name
           end
         end
       end

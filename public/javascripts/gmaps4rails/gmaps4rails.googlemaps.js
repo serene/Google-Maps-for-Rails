@@ -31,7 +31,8 @@
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: "#000000",
-        fillOpacity: 0.35
+        fillOpacity: 0.35,
+        clickable: false
       };
       this.polylines_conf = {
         strokeColor: "#FF0000",
@@ -109,7 +110,8 @@
           position: markerLatLng,
           map: this.map,
           title: args.marker_title,
-          draggable: args.marker_draggable
+          draggable: args.marker_draggable,
+          zIndex: args.zindex
         };
         mergedOptions = this.mergeObjectWithDefault(this.markers_conf.raw, defaultOptions);
         return new google.maps.Marker(mergedOptions);
@@ -121,7 +123,8 @@
           draggable: args.marker_draggable,
           content: args.rich_marker,
           flat: args.marker_anchor === null ? false : args.marker_anchor[1],
-          anchor: args.marker_anchor === null ? 0 : args.marker_anchor[0]
+          anchor: args.marker_anchor === null ? 0 : args.marker_anchor[0],
+          zIndex: args.zindex
         });
       }
       imageAnchorPosition = this.createImageAnchorPosition(args.marker_anchor);
@@ -134,7 +137,8 @@
         icon: markerImage,
         title: args.marker_title,
         draggable: args.marker_draggable,
-        shadow: shadowImage
+        shadow: shadowImage,
+        zIndex: args.zindex
       };
       mergedOptions = this.mergeObjectWithDefault(this.markers_conf.raw, defaultOptions);
       return new google.maps.Marker(mergedOptions);

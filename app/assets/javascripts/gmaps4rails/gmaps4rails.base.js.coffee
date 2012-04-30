@@ -1,6 +1,6 @@
 Gmaps = {}
 
-Gmaps.TriggerOldOnload = ->
+Gmaps.triggerOldOnload = ->
   Gmaps.oldOnload() if typeof(Gmaps.oldOnload) == 'function'
 
 Gmaps.loadMaps = ->

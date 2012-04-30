@@ -3,6 +3,10 @@
 
   Gmaps = {};
 
+  Gmaps.triggerOldOnload = function() {
+    if (typeof Gmaps.oldOnload === 'function') return Gmaps.oldOnload();
+  };
+
   Gmaps.loadMaps = function() {
     var key, load_function_name, searchLoadIncluded, value, _results;
     _results = [];
@@ -239,7 +243,7 @@
     };
 
     Gmaps4Rails.prototype.create_polygon = function(polygon) {
-      var fillColor, fillOpacity, latlng, new_poly, point, polygon_coordinates, strokeColor, strokeOpacity, strokeWeight, _i, _len;
+      var clickable, fillColor, fillOpacity, latlng, new_poly, point, polygon_coordinates, strokeColor, strokeOpacity, strokeWeight, _i, _len;
       polygon_coordinates = [];
       for (_i = 0, _len = polygon.length; _i < _len; _i++) {
         point = polygon[_i];
@@ -251,6 +255,7 @@
           strokeWeight = point.strokeWeight || this.polygons_conf.strokeWeight;
           fillColor = point.fillColor || this.polygons_conf.fillColor;
           fillOpacity = point.fillOpacity || this.polygons_conf.fillOpacity;
+          clickable = point.clickable || this.polygons_conf.clickable;
         }
       }
       new_poly = new google.maps.Polygon({
@@ -260,7 +265,7 @@
         strokeWeight: strokeWeight,
         fillColor: fillColor,
         fillOpacity: fillOpacity,
-        clickable: false,
+        clickable: clickable,
         map: this.map
       });
       return polygon.serviceObject = new_poly;
@@ -341,31 +346,34 @@
       _ref = this.markers;
       for (index = 0, _len = _ref.length; index < _len; index++) {
         marker = _ref[index];
-        Lat = this.markers[index].lat;
-        Lng = this.markers[index].lng;
-        if (this.markers_conf.randomize) {
-          LatLng = this.randomize(Lat, Lng);
-          Lat = LatLng[0];
-          Lng = LatLng[1];
+        if (!(this.markers[index].serviceObject != null)) {
+          Lat = this.markers[index].lat;
+          Lng = this.markers[index].lng;
+          if (this.markers_conf.randomize) {
+            LatLng = this.randomize(Lat, Lng);
+            Lat = LatLng[0];
+            Lng = LatLng[1];
+          }
+          this.markers[index].serviceObject = this.createMarker({
+            "marker_picture": this.markers[index].picture ? this.markers[index].picture : this.markers_conf.picture,
+            "marker_width": this.markers[index].width ? this.markers[index].width : this.markers_conf.width,
+            "marker_height": this.markers[index].height ? this.markers[index].height : this.markers_conf.length,
+            "marker_title": this.markers[index].title ? this.markers[index].title : null,
+            "marker_anchor": this.markers[index].marker_anchor ? this.markers[index].marker_anchor : null,
+            "shadow_anchor": this.markers[index].shadow_anchor ? this.markers[index].shadow_anchor : null,
+            "shadow_picture": this.markers[index].shadow_picture ? this.markers[index].shadow_picture : null,
+            "shadow_width": this.markers[index].shadow_width ? this.markers[index].shadow_width : null,
+            "shadow_height": this.markers[index].shadow_height ? this.markers[index].shadow_height : null,
+            "marker_draggable": this.markers[index].draggable ? this.markers[index].draggable : this.markers_conf.draggable,
+            "rich_marker": this.markers[index].rich_marker ? this.markers[index].rich_marker : null,
+            "zindex": this.markers[index].zindex ? this.markers[index].zindex : null,
+            "Lat": Lat,
+            "Lng": Lng,
+            "index": index
+          });
+          this.createInfoWindow(this.markers[index]);
+          this.createSidebar(this.markers[index]);
         }
-        this.markers[index].serviceObject = this.createMarker({
-          "marker_picture": this.markers[index].picture ? this.markers[index].picture : this.markers_conf.picture,
-          "marker_width": this.markers[index].width ? this.markers[index].width : this.markers_conf.width,
-          "marker_height": this.markers[index].height ? this.markers[index].height : this.markers_conf.length,
-          "marker_title": this.markers[index].title ? this.markers[index].title : null,
-          "marker_anchor": this.markers[index].marker_anchor ? this.markers[index].marker_anchor : null,
-          "shadow_anchor": this.markers[index].shadow_anchor ? this.markers[index].shadow_anchor : null,
-          "shadow_picture": this.markers[index].shadow_picture ? this.markers[index].shadow_picture : null,
-          "shadow_width": this.markers[index].shadow_width ? this.markers[index].shadow_width : null,
-          "shadow_height": this.markers[index].shadow_height ? this.markers[index].shadow_height : null,
-          "marker_draggable": this.markers[index].draggable ? this.markers[index].draggable : this.markers_conf.draggable,
-          "rich_marker": this.markers[index].rich_marker ? this.markers[index].rich_marker : null,
-          "Lat": Lat,
-          "Lng": Lng,
-          "index": index
-        });
-        this.createInfoWindow(this.markers[index]);
-        this.createSidebar(this.markers[index]);
       }
       return this.markers_conf.offset = this.markers.length;
     };
