@@ -44,7 +44,7 @@ module Gmaps4rails
 
       result << "};"
       if hash[:last_map].nil? || hash[:last_map] == true
-        result << "window.onload = function() { Gmaps.loadMaps(); };"
+        result << "Gmaps.oldOnload = window.onload;\n window.onload = function() { Gmaps.TriggerOldOnload(); Gmaps.loadMaps(); };"
       end
 
       result * ('

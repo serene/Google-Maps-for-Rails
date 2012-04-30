@@ -1,5 +1,8 @@
 Gmaps = {}
 
+Gmaps.TriggerOldOnload = ->
+  Gmaps.oldOnload() if typeof(Gmaps.oldOnload) == 'function'
+
 Gmaps.loadMaps = ->
   #loop through all variable names.
   #there should only be maps inside so it trigger their load function
