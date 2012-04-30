@@ -6,7 +6,7 @@ Spork.prefork do
   require File.expand_path("../dummy/config/environment", __FILE__)
   require 'rspec/rails'
   require 'pry'
-  require 'capybara/rspec'
+  #require 'capybara/rspec'
   require 'factory_girl_rails'
   require 'database_cleaner'
   require "jasmine"
