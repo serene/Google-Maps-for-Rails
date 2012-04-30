@@ -34,31 +34,7 @@ This will copy the coffeescript files if you're running Rails 3.1 or the js file
   
     <%= yield :scripts %> (in your footer)
 
-The gem will use this container to include:
-
-* the js files from map providers
-
-* the custom js to display the map
-
-Another kind of js is needed: the gem's js code.
-
-Before v2.0, js files were magically included by the gem in your view. This required additional logic and didn't fit all expectations.
-Now you have to include the files yourself which makes everything clearer.
-
-For Rails 3.0.x or without assets pipeline, include the necessary files in your view:
-
-    # base is always necessary
-    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.base.js' %>
-    # for google maps
-    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.googlemaps.js' %>
-    # for openlayers
-    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.openlayers.js' %>
-    # for mapquest
-    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.mapquest.js' %>
-    # for bing
-    <%= javascript_include_tag 'gmaps4rails/gmaps4rails.bing.js' %>
-
-For Rails >= 3.1 with assets pipeline, same principle: add the required files to your manifest.
+This container will include the js files from map providers, the custom js to display the map, the gem's js code.
 
 4) CSS
 
@@ -67,7 +43,7 @@ Be sure to require this file in your view for your first steps.
 
 For Rails 3.0.x or without assets pipeline:
 
-    <%= stylesheet_link_tag 'gmaps4rails %>
+    <%= stylesheet_link_tag 'gmaps4rails' %>
     
 For Rails >= 3.1 with assets pipeline, same principle: add the required file to your manifest.
 
