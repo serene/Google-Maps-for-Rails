@@ -79,7 +79,7 @@ module Gmaps4rails
     # works for Rails 3.0.x and above
     # @return [Boolean]
     def gmaps4rails_pipeline_enabled?
-      Rails.configuration.try(:assets).try(:enabled)
+      Rails.configuration.respond_to?('assets') && Rails.configuration.assets.enabled
     end
     
     def map_options

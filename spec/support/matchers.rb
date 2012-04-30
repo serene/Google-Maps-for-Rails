@@ -1,34 +1,23 @@
 require 'rspec/expectations'
 
 def has_same_content_as?(actual, expected)
-  #p "entry: #{actual}"
-  #p "entry2: #{expected}"
   case actual
   when Array
     case expected
     when Array
       result = true
-      #p "where: #{actual.first.class}"
-      #trigger recursion if array contains subarrays
       case actual.first
       when Array
         actual.each do |actual_subarray|
-          #p "actual_subarray: #{actual_subarray}"
           bool = false
           expected.each do |expected_subarray|
-           # p "expected_subarray: #{expected_subarray}"
             bool = bool || has_same_content_as?(actual_subarray, expected_subarray)
-            #p "comparison: #{bool}"
           end
           result = result && bool
         end
         result
       else
         (actual - expected).empty?
-        #p "actual: #{actual}"
-        #p "expected: #{expected}"
-        #p "comparison = #{temp}"
-        #temp
       end
     else 
       false

@@ -187,7 +187,6 @@ describe Gmaps4rails::ActsAsGmappable do
     end
   end
   
-  
   context "standard configuration, invalid address" do
     
     it "should raise an error if validation option is turned on and address incorrect" do
@@ -198,8 +197,7 @@ describe Gmaps4rails::ActsAsGmappable do
       invalid_user.gmaps.should_not be_true
     end
   end
-  
-  
+    
   context "model customization" do
 
     it "should render a valid json even if there is no instance in the db" do
