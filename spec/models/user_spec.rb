@@ -137,7 +137,7 @@ describe Gmaps4rails::ActsAsGmappable do
         it "should prevent geocoding when returns false" do
           user.instance_eval do
             def gmaps4rails_options
-              DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { false } })
+              DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda {|user| false } })
             end
           end
           Gmaps4rails.should_not_receive(:geocode)
@@ -148,7 +148,7 @@ describe Gmaps4rails::ActsAsGmappable do
           it "should trigger the geocoding" do
             user.instance_eval do
               def gmaps4rails_options
-                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { true } })
+                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda {|user| true } })
               end
             end
             user.should_receive :gmaps4rails_save_data
@@ -162,7 +162,7 @@ describe Gmaps4rails::ActsAsGmappable do
             #then tested behavior
             user.instance_eval do
               def gmaps4rails_options
-                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { true } })
+                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda {|user| true } })
               end
             end
             user.update_attributes(:gmaps => false, :address => "Strasbourg, france")
