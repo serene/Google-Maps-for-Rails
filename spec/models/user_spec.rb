@@ -11,7 +11,8 @@ DEFAULT_CONFIG_HASH = {
   :validation     => true,
   :address        => "gmaps4rails_address",
   :language       => "en",
-  :protocol       => "http"
+  :protocol       => "http",
+  :process_geocoding => true
 }
 
 PARIS  = { :latitude => 48.856614, :longitude => 2.3522219 }
@@ -129,9 +130,47 @@ describe Gmaps4rails::ActsAsGmappable do
           marker.sidebar "i'm the sidebar"
         end.should include "\"sidebar\":\"i'm the sidebar\""
       end
-      
     end
-  
+    
+    context "process_geocoding" do
+      context "Proc" do
+        it "should prevent geocoding when returns false" do
+          user.instance_eval do
+            def gmaps4rails_options
+              DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { false } })
+            end
+          end
+          Gmaps4rails.should_not_receive(:geocode)
+          user.update_attributes(:address => "Strasbourg, france")
+        end
+        
+        context "geocoding required" do
+          it "should trigger the geocoding" do
+            user.instance_eval do
+              def gmaps4rails_options
+                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { true } })
+              end
+            end
+            user.should_receive :gmaps4rails_save_data
+            user.update_attributes(:address => "Strasbourg, france")
+          end
+          
+          it "should update coordinates but not update checker" do
+            #first default behavior
+            user.update_attributes(:gmaps => false, :address => "Strasbourg, france")
+            user.gmaps.should eq true
+            #then tested behavior
+            user.instance_eval do
+              def gmaps4rails_options
+                DEFAULT_CONFIG_HASH.merge({ :process_geocoding => lambda { true } })
+              end
+            end
+            user.update_attributes(:gmaps => false, :address => "Strasbourg, france")
+            user.gmaps.should eq false
+          end
+        end
+      end
+    end
     it "should render a valid json from a single object" do
       JSON.parse(user.to_gmaps4rails).should == [{"lng" => TOULON[:longitude], "lat" => TOULON[:latitude] }]
     end
