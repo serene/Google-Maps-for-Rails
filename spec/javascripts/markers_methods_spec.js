@@ -133,8 +133,7 @@ describe("createServiceMarkersFromMarkers full stack", function() {
       "shadow_width":     marker.shadow_width,
       "shadow_height":    marker.shadow_height,
       "marker_draggable": marker.draggable,
-      "rich_marker":      null,
-      "zindex":           null,
+      "rich_marker":      null,   
       "Lat":              marker.lat,
       "Lng":              marker.lng,
       "index":            0
@@ -163,7 +162,6 @@ describe("createServiceMarkersFromMarkers full stack", function() {
       "shadow_height":    null,
       "marker_draggable": gmap.markers_conf.draggable,
       "rich_marker":      null,
-      "zindex":           null,
       "Lat":              marker.lat,
       "Lng":              marker.lng,
       "index":            0
